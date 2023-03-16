@@ -82,8 +82,8 @@ const getGit = async (context) => {
   const file = formData.get('file') // 获取上传文件对象
   const fileName = file.name // 获取上传文件名
   const sExtensionName = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
-  var options = {
-    url: `https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`,
+
+  const response = fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
     method: 'PUT',
     headers: {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
@@ -91,9 +91,9 @@ const getGit = async (context) => {
       'Content-Type': 'application/json'
     },
     body: request.body
-  }
+  })
 
-  return options
+  return response
 }
 
 export async function onRequestPost(context) {
@@ -102,7 +102,7 @@ export async function onRequestPost(context) {
 
   // github
 
-  const options = await getGit(context)
+  const response = await getGit(context)
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
@@ -116,9 +116,5 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  return new Response(JSON.stringify(options), {
-    headers: {
-      'content-type': 'application/json;charset=UTF-8'
-    }
-  })
+  return response
 }
