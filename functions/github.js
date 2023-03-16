@@ -113,12 +113,17 @@ export async function onRequestPost(context) {
 
   const formData = await request.formData()
   const file = formData.get('file') // 获取上传文件对象
-  // const fileName = file.name // 获取上传文件名
+  const fileName = file.name // 获取上传文件名
   // const sExtensionName = fileName.substring(name.lastIndexOf('.') + 1).toLowerCase()
 
-  return new Response(JSON.stringify(file), {
-    headers: {
-      'content-type': 'application/json;charset=UTF-8'
+  return new Response(
+    JSON.stringify({
+      fileName
+    }),
+    {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8'
+      }
     }
-  })
+  )
 }
