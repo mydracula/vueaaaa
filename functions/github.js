@@ -127,9 +127,14 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  return new Response(json, {
-    headers: {
-      'content-type': 'application/json;charset=UTF-8'
+  return new Response(
+    JSON.stringify({
+      json
+    }),
+    {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8'
+      }
     }
-  })
+  )
 }
