@@ -111,5 +111,9 @@ export async function onRequestPost(context) {
   //   headers: request.headers,
   //   body: request.body
   // })
-  return new Response(options)
+  return new Response(JSON.stringify(options), {
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    }
+  })
 }
