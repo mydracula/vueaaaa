@@ -64,7 +64,7 @@ function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
       v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
+    return v.toString(16).replace(/\s*/g, '-')
   })
 }
 
@@ -111,20 +111,14 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  // const formData = await request.formData()
+  const formData = await request.formData()
   // const file = formData.get('file') // 获取上传文件对象
   // const fileName = file.name // 获取上传文件名
   // const sExtensionName = fileName.substring(name.lastIndexOf('.') + 1).toLowerCase()
 
-  return new Response(
-    JSON.stringify({
-      // sExtensionName
-      uuidv4: uuidv4()
-    }),
-    {
-      headers: {
-        'content-type': 'application/json;charset=UTF-8'
-      }
+  return new Response(JSON.stringify(formData), {
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
     }
-  )
+  })
 }
