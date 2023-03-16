@@ -94,12 +94,32 @@ const getGit = async (context) => {
 }
 
 export async function onRequestPost(context) {
-  const { request } = context
+  // const { request } = context
   // const url = new URL(request.url)
 
   // github
 
-  const option = await getGit()
+  const { request } = context
+  const userName = 'mydracula'
+  const repositoryName = 'image'
+  const token = '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'
+  const date = new Date()
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+  const time = date.toJSON().replace(/[-T]/g, '').substr(0, 8)
+  const formData = await request.formData()
+  const file = formData.get('file') // 获取上传文件对象
+  const fileName = file.name // 获取上传文件名
+  const sExtensionName = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
+  var options = {
+    url: `https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`,
+    method: 'PUT',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
+      Authorization: `token ${token}`,
+      'Content-Type': 'application/json'
+    }
+    // body: request.body
+  }
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
@@ -113,7 +133,7 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  return new Response(JSON.stringify(option), {
+  return new Response(JSON.stringify(options), {
     headers: {
       'content-type': 'application/json;charset=UTF-8'
     }
