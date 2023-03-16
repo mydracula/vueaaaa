@@ -61,11 +61,13 @@
 // })
 
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16).replace(/\s*/g, '-')
-  })
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    })
+    .replace(/[-]/g, '')
 }
 
 const getGit = async (context) => {
@@ -117,8 +119,8 @@ export async function onRequestPost(context) {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
       Authorization: `token ${token}`,
       'Content-Type': 'application/json'
-    }
-    // body: request.body
+    },
+    body: request.body
   }
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
