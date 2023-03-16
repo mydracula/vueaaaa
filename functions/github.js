@@ -83,15 +83,22 @@ const getGit = async (context) => {
   const fileName = file.name // 获取上传文件名
   const sExtensionName = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
 
-  return fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
-    method: 'PUT',
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
-      Authorization: `token ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: request.body
-  })
+  if (file) {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const base64Data = reader.result.split(',')[1]
+      return fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
+        method: 'PUT',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ accept: 'application/vnd.github.v3+jso', message: 'init', content: base64Data })
+      })
+    }
+  }
 }
 
 export async function onRequestPost(context) {
