@@ -87,8 +87,8 @@ const getGit = async (context) => {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
       Authorization: `token ${token}`,
       'Content-Type': 'application/json'
-    },
-    body: request.body
+    }
+    // body: request.body
   }
   return options
 }
@@ -98,7 +98,7 @@ export async function onRequestPost(context) {
   // const url = new URL(request.url)
 
   // github
-  const options = await getGit(context)
+  const options = getGit(context)
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
