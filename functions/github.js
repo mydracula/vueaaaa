@@ -98,7 +98,6 @@ export async function onRequestPost(context) {
   // const url = new URL(request.url)
 
   // github
-  const options = await getGit(context)
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
@@ -111,9 +110,25 @@ export async function onRequestPost(context) {
   //   headers: request.headers,
   //   body: request.body
   // })
-  return new Response(JSON.stringify(options), {
-    headers: {
-      'content-type': 'application/json;charset=UTF-8'
+
+  const userName = 'mydracula'
+  const repositoryName = 'image'
+  const token = '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'
+  const date = new Date()
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+  const time = date.toJSON().replace(/[-T]/g, '').substr(0, 8)
+
+  return new Response(
+    JSON.stringify({
+      time,
+      token,
+      userName,
+      repositoryName
+    }),
+    {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8'
+      }
     }
-  })
+  )
 }
