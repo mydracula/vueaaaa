@@ -95,33 +95,5 @@ const getGit = async (context) => {
 }
 
 export async function onRequestPost(context) {
-  // const { request } = context
-  // const url = new URL(request.url)
-
-  // github
-
-  const json = await getGit(context)
-
-  // const response = fetch('https://telegra.ph/' + url.pathname, {
-  //   method: 'PUT',
-  //   headers: request.headers,
-  //   body: request.body
-  // })
-
-  // const response = fetch('https://telegra.ph/' + url.pathname, {
-  //   method: request.method,
-  //   headers: request.headers,
-  //   body: request.body
-  // })
-
-  return new Response(
-    JSON.stringify({
-      json
-    }),
-    {
-      headers: {
-        'content-type': 'application/json;charset=UTF-8'
-      }
-    }
-  )
+  return await getGit(context)
 }
