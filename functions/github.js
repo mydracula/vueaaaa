@@ -111,19 +111,15 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  const userName = 'mydracula'
-  const repositoryName = 'image'
-  const token = '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'
-  const date = new Date()
-  date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-  const time = date.toJSON().replace(/[-T]/g, '').substr(0, 8)
+  const formData = await request.formData()
+  const file = formData.get('file') // 获取上传文件对象
+  const fileName = file.name // 获取上传文件名
+  const sExtensionName = fileName.substring(name.lastIndexOf('.') + 1).toLowerCase()
 
   return new Response(
     JSON.stringify({
-      time,
-      token,
-      userName,
-      repositoryName
+      sExtensionName,
+      uuidv4: uuidv4()
     }),
     {
       headers: {
