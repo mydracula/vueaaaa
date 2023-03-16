@@ -98,7 +98,7 @@ export async function onRequestPost(context) {
   // const url = new URL(request.url)
 
   // github
-  const options = getGit(context)
+  const options = await getGit(context)
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
