@@ -111,15 +111,15 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  const formData = await request.formData()
-  const file = formData.get('file') // 获取上传文件对象
-  const fileName = file.name // 获取上传文件名
-  const sExtensionName = fileName.substring(name.lastIndexOf('.') + 1).toLowerCase()
+  // const formData = await request.formData()
+  // const file = formData.get('file') // 获取上传文件对象
+  // const fileName = file.name // 获取上传文件名
+  // const sExtensionName = fileName.substring(name.lastIndexOf('.') + 1).toLowerCase()
 
   return new Response(
     JSON.stringify({
-      sExtensionName
-      // uuidv4: uuidv4()
+      // sExtensionName
+      uuidv4: uuidv4()
     }),
     {
       headers: {
