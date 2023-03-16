@@ -83,17 +83,28 @@ const getGit = async (context) => {
   const fileName = file.name // 获取上传文件名
   const sExtensionName = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
 
-  const response = fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
-    method: 'PUT',
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
-      Authorization: `token ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: request.body
-  })
+  // const response = fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
+  //     Authorization: `token ${token}`,
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: request.body
+  // })
 
-  return response
+  return [
+    `https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`,
+    {
+      method: 'PUT',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
+        Authorization: `token ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: request.body
+    }
+  ]
 }
 
 export async function onRequestPost(context) {
@@ -102,7 +113,7 @@ export async function onRequestPost(context) {
 
   // github
 
-  const response = await getGit(context)
+  const json = await getGit(context)
 
   // const response = fetch('https://telegra.ph/' + url.pathname, {
   //   method: 'PUT',
@@ -116,5 +127,9 @@ export async function onRequestPost(context) {
   //   body: request.body
   // })
 
-  return response
+  return new Response(json, {
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    }
+  })
 }
