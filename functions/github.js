@@ -94,7 +94,7 @@ const getGit = async (context) => {
 }
 
 export async function onRequestPost(context) {
-  // const { request } = context
+  const { request } = context
   // const url = new URL(request.url)
 
   // github
