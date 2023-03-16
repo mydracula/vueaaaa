@@ -118,7 +118,7 @@ export async function onRequestPost(context) {
 
   return new Response(
     JSON.stringify({
-      sExtensionName,
+      // sExtensionName,
       uuidv4: uuidv4()
     }),
     {
