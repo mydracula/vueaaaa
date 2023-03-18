@@ -93,7 +93,7 @@ export async function onRequestPost(context) {
       outBody = JSON.stringify(rj['content'])
       outStatus = 200
     } else {
-      outBody = res.body
+      outBody = uri
       outStatus = res.status
     }
   } catch (err) {
