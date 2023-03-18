@@ -51,7 +51,7 @@ export async function onRequestPost(context) {
     let uri = `https://api.github.com/repos/${or}/contents/${pathname}/${uuid}${ext}`
 
     //调整头
-    reqHeaders.set('Authorization', `token ${process.env.GITHUB_TOKEN}`)
+    reqHeaders.set('Authorization', `token ${context.env.GITHUB_TOKEN}`)
     reqHeaders.set('Content-Type', 'application/json')
 
     //发起 fetch
