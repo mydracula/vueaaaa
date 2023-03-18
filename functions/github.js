@@ -1,6 +1,3 @@
-//public_repo 填写你的 TOKEN
-const YOUR_TOKEN = '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'
-
 async function arrayBufferToBase64(buffer) {
   let binary = ''
   const bytes = new Uint8Array(buffer)
@@ -34,28 +31,14 @@ export async function onRequestPost(context) {
     reqHeaders = new Headers(request.headers)
 
   try {
-    //接收
-    let tip = [],
-      or,
-      uuid,
-      pathname,
-      filename,
-      ext,
-      file,
-      content
+    let or, uuid, pathname, filename, ext, file, content
     let sp = new URL(request.url).searchParams
-    //仓库
     or = sp.get('or') || ''
-    //文件名
     filename = (sp.get('name') || '').trim().replace(/\//g, '')
-    //自定义路径及名称
     pathname = (sp.get('pathname') || '').trim()
-    //格式
     ext = '.' + filename.split('.')[1]
-
     let buffer = await request.arrayBuffer()
     content = await arrayBufferToBase64(buffer)
-
     let now = new Date(Date.now() + 8 * 3600 * 1000).toISOString().replace('Z', '')
     //路径及名称
     if (pathname == '') {
@@ -68,7 +51,7 @@ export async function onRequestPost(context) {
     let uri = `https://api.github.com/repos/${or}/contents/${pathname}/${uuid}${ext}`
 
     //调整头
-    reqHeaders.set('Authorization', `token ${YOUR_TOKEN}`)
+    reqHeaders.set('Authorization', `token ${process.env.GITHUB_TOKEN}`)
     reqHeaders.set('Content-Type', 'application/json')
 
     //发起 fetch
@@ -87,7 +70,7 @@ export async function onRequestPost(context) {
       outBody = JSON.stringify(rj['content'])
       outStatus = 200
     } else {
-      outBody = YOUR_TOKEN + '=>>>>' + content
+      outBody = res.body
       outStatus = res.status
     }
   } catch (err) {
