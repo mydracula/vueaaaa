@@ -43,11 +43,21 @@ export async function onRequestPost(context) {
     //接收
     let tip = [],
       or,
-      filename,
+      uuid,
       pathname,
+      filename,
       ext,
       file,
       content
+    let sp = new URL(request.url).searchParams
+    //仓库
+    or = sp.get('or') || ''
+    //文件名
+    filename = (sp.get('name') || '').trim().replace(/\//g, '')
+    //自定义路径及名称
+    pathname = (sp.get('pathname') || '').trim()
+    //格式
+    ext = '.' + filename.split('.')[1]
 
     let buffer = await request.arrayBuffer()
     content = await arrayBufferToBase64(buffer)
