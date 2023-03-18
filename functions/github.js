@@ -68,7 +68,7 @@ export async function onRequestPost(context) {
     let uri = `https://api.github.com/repos/${or}/contents/${pathname}/${uuid}${ext}`
 
     //调整头
-    reqHeaders.set('Authorization', 'token ' + YOUR_TOKEN)
+    reqHeaders.set('Authorization', `token ${YOUR_TOKEN}`)
     reqHeaders.set('Content-Type', 'application/json')
 
     //发起 fetch
@@ -87,7 +87,7 @@ export async function onRequestPost(context) {
       outBody = JSON.stringify(rj['content'])
       outStatus = 200
     } else {
-      outBody = uri
+      outBody = YOUR_TOKEN + '=>>>>' + content
       outStatus = res.status
     }
   } catch (err) {
