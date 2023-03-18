@@ -1,64 +1,92 @@
-// const userName = 'mydracula'
-// const repositoryName = 'image'
-// const token = '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'
+//public_repo 填写你的 TOKEN
+const YOUR_TOKEN = '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'
+//Allowed Repos 仓库白名单
+const YOUR_REPOS = ['mydracula/image']
+//受限制的文件格式
+const LIMIT_EXT = ['.exe']
+//最大文件 MB
+const MAX_SIZE = 50
 
-// const { v4: uuidv4 } = require('uuid')
+export async function onRequestPost(context) {
+  const { request } = context
+  let outBody,
+    outStatus = 204,
+    outHeaders = new Headers({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, PUT, PATCH, POST, DELETE',
+      'Access-Control-Allow-Headers': '*',
+      'Content-Type': 'application/json'
+    }),
+    reqHeaders = new Headers(request.headers)
 
-// router.get('/github', (req, res) => {
-//   res.send('看你吗看啊')
-// })
+  try {
+    //接收
+    let tip = [],
+      or,
+      filename,
+      pathname,
+      ext,
+      file,
+      content
 
-// router.post('/github', (req, res, next) => {
-//   var form = new formidable.IncomingForm()
-//   form.parse(req, function (err, fields, files) {
-//     const name = files?.file?.originalFilename
-//     var sExtensionName = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
+    let buffer = await request.arrayBuffer()
+    content = await arrayBufferToBase64(buffer)
 
-//     fs.readFile(files.file.filepath, (err, data) => {
-//       if (err) throw err
-//       const base = data.toString('base64')
-//       const uuid = uuidv4().replace(/-/g, '')
-//       const date = new Date()
-//       date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-//       const time = date.toJSON().replace(/[-T]/g, '').substr(0, 8)
-//       var headers = {
-//         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
-//         Authorization: `token ${token}`,
-//         'Content-Type': 'application/json'
-//       }
-//       var dataString = { accept: 'application/vnd.github.v3+jso', message: 'init', content: base }
+    let now = new Date(Date.now() + 8 * 3600 * 1000).toISOString().replace('Z', '')
+    //路径及名称
+    if (pathname == '') {
+      pathname = now.replace(/[-T.]/g, '').substr(0, 8)
+    }
 
-//       var options = {
-//         url: `https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuid}/${uuid}.${sExtensionName}`,
-//         method: 'PUT',
-//         headers: headers,
-//         body: JSON.stringify(dataString)
-//       }
+    uuid = uuidv4()
 
-//       request(options, function (error, response, body) {
-//         const isSucess = body?.indexOf('_links') != -1 && body?.indexOf('author') != -1
-//         console.log(response.statusCode, body, isSucess)
+    //完整链接
+    let uri = `https://api.github.com/repos/${or}/contents/${pathname}/${uuid}${ext}`
 
-//         if (!error && isSucess && response.statusCode == 201) {
-//           res.json({
-//             code: 200,
-//             msg: '请求成功',
-//             data: {
-//               '7ED': `https://raw.githubusercontents.com/${userName}/${repositoryName}/master/${time}/${uuid}/${uuid}.${sExtensionName}`,
-//               JsDelivr: `https://gcore.jsdelivr.net/gh/${userName}/${repositoryName}@master/${time}/${uuid}/${uuid}.${sExtensionName}`，
-//             }
-//           })
-//         } else {
-//           res.json({
-//             code: 500,
-//             msg: '请求异常',
-//             data: null
-//           })
-//         }
-//       })
-//     })
-//   })
-// })
+    //调整头
+    reqHeaders.set('Authorization', 'token ' + YOUR_TOKEN)
+    reqHeaders.set('Content-Type', 'application/json')
+
+    //发起 fetch
+    let res = await fetch(uri, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: 'update',
+        content: content || file
+      }),
+      headers: reqHeaders
+    })
+
+    //成功
+    if (res.status == 201) {
+      let rj = await res.json()
+      outBody = JSON.stringify(rj['content'])
+      outStatus = 200
+    } else {
+      outBody = res.body
+      outStatus = res.status
+    }
+  } catch (err) {
+    console.log('错误了', err)
+    outBody = JSON.stringify(err.stack) || err
+    outStatus = 500
+  }
+
+  return new Response(outBody, {
+    status: outStatus,
+    headers: outHeaders
+  })
+}
+
+async function arrayBufferToBase64(buffer) {
+  let binary = ''
+  const bytes = new Uint8Array(buffer)
+  const len = bytes.byteLength
+  for (let i = 0; i < len; i += 1) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return btoa(binary)
+}
 
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
@@ -68,39 +96,4 @@ function uuidv4() {
       return v.toString(16)
     })
     .replace(/[-]/g, '')
-}
-
-const getGit = async (context) => {
-  const { request } = context
-  const userName = 'mydracula'
-  const repositoryName = 'image'
-  const token = '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'
-  const date = new Date()
-  date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-  const time = date.toJSON().replace(/[-T]/g, '').substr(0, 8)
-  const formData = await request.formData()
-  const file = formData.get('file') // 获取上传文件对象
-  const fileName = file.name // 获取上传文件名
-  const sExtensionName = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
-
-  if (file) {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      const base64Data = reader.result.split(',')[1]
-      return fetch(`https://api.github.com/repos/${userName}/${repositoryName}/contents/${time}/${uuidv4()}.${sExtensionName}`, {
-        method: 'PUT',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36',
-          Authorization: `token ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ accept: 'application/vnd.github.v3+jso', message: 'init', content: base64Data })
-      })
-    }
-  }
-}
-
-export async function onRequestPost(context) {
-  return await getGit(context)
 }
