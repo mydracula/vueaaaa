@@ -66,8 +66,10 @@ export async function onRequestPost(context) {
 
     //成功
     if (res.status == 201) {
-      let rj = await res.json()
-      outBody = JSON.stringify(rj['content'])
+      outBody = JSON.stringify({
+        '7ED': `https://raw.githubusercontents.co/${or}/master/${pathname}/${uuid}${ext}`,
+        JsDelivr: `https://gcore.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
+      })
       outStatus = 200
     } else {
       outBody = res.body
