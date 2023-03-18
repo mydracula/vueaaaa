@@ -74,7 +74,6 @@ export async function onRequestPost(context) {
       outStatus = res.status
     }
   } catch (err) {
-    console.log('错误了', err)
     outBody = JSON.stringify(err.stack) || err
     outStatus = 500
   }
