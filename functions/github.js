@@ -63,15 +63,14 @@ export async function onRequestPost(context) {
       }),
       headers: reqHeaders
     })
-
     //成功
     if (res.status == 201) {
       outBody = JSON.stringify({
         code: 200,
         msg: '请求成功',
         data: {
-          '7ED': `https://raw.githubusercontents.com/${userName}/${repositoryName}/master/${time}/${uuid}/${uuid}.${sExtensionName}`,
-          JsDelivr: `https://gcore.jsdelivr.net/gh/${userName}/${repositoryName}@master/${time}/${uuid}/${uuid}.${sExtensionName}`
+          '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
+          JsDelivr: `https://gcore.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
         }
       })
       outStatus = 200
