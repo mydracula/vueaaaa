@@ -1,11 +1,5 @@
 //public_repo 填写你的 TOKEN
-const YOUR_TOKEN = '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'
-//Allowed Repos 仓库白名单
-const YOUR_REPOS = ['mydracula/image']
-//受限制的文件格式
-const LIMIT_EXT = ['.exe']
-//最大文件 MB
-const MAX_SIZE = 50
+const YOUR_TOKEN = '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'
 
 async function arrayBufferToBase64(buffer) {
   let binary = ''
@@ -81,7 +75,7 @@ export async function onRequestPost(context) {
     let res = await fetch(uri, {
       method: 'PUT',
       body: JSON.stringify({
-        message: 'update',
+        message: 'init',
         content: content || file
       }),
       headers: reqHeaders
