@@ -1,5 +1,5 @@
 //public_repo 填写你的 TOKEN
-const YOUR_TOKEN = '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'
+const YOUR_TOKEN = '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'
 
 async function arrayBufferToBase64(buffer) {
   let binary = ''
