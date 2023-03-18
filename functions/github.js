@@ -67,8 +67,12 @@ export async function onRequestPost(context) {
     //成功
     if (res.status == 201) {
       outBody = JSON.stringify({
-        '7ED': `https://raw.githubusercontents.co/${or}/master/${pathname}/${uuid}${ext}`,
-        JsDelivr: `https://gcore.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
+        code: 200,
+        msg: '请求成功',
+        data: {
+          '7ED': `https://raw.githubusercontents.com/${userName}/${repositoryName}/master/${time}/${uuid}/${uuid}.${sExtensionName}`,
+          JsDelivr: `https://gcore.jsdelivr.net/gh/${userName}/${repositoryName}@master/${time}/${uuid}/${uuid}.${sExtensionName}`
+        }
       })
       outStatus = 200
     } else {
