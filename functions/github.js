@@ -70,7 +70,7 @@ export async function onRequestPost(context) {
         msg: '请求成功',
         data: {
           '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
-          JsDelivr: `https://gcore.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
+          JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
         }
       })
       outStatus = 200
