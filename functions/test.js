@@ -31,15 +31,15 @@ export async function onRequestPost(context) {
     reqHeaders = new Headers(request.headers)
 
   try {
-    let or, uuid, pathname, filename, ext, file, content
+    let or, uuid, pathname, filename, ext, content
     let sp = new URL(request.url).searchParams
     or = sp.get('or') || ''
     filename = (sp.get('name') || '').trim().replace(/\//g, '')
     pathname = (sp.get('pathname') || '').trim()
     ext = '.' + filename.split('.')[1]
     const formData = await request.formData()
-    const f = formData.get('file')
-    let buffer = await f.arrayBuffer()
+    const file = formData.get('file')
+    let buffer = await file.arrayBuffer()
     content = await arrayBufferToBase64(buffer)
     let now = new Date(Date.now() + 8 * 3600 * 1000).toISOString().replace('Z', '')
     //路径及名称
@@ -57,29 +57,37 @@ export async function onRequestPost(context) {
     reqHeaders.set('Content-Type', 'application/json')
 
     //发起 fetch
-    let res = await fetch(uri, {
-      method: 'PUT',
-      body: JSON.stringify({
-        message: 'init',
-        content: content || file
-      }),
-      headers: reqHeaders
+    // let res1 = await fetch(uri, {
+    //   method: 'PUT',
+    //   body: JSON.stringify({
+    //     message: 'init',
+    //     content: content
+    //   }),
+    //   headers: reqHeaders
+    // })
+
+    let res = await fetch('https://telegra.ph/' + new URL(request.url).pathname, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body
     })
+
+    return res
     //成功
-    if (res.status == 201) {
-      outBody = JSON.stringify({
-        code: 200,
-        msg: '请求成功',
-        data: {
-          '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
-          JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
-        }
-      })
-      outStatus = 200
-    } else {
-      outBody = res.body
-      outStatus = res.status
-    }
+    // if (res.status == 201) {
+    //   outBody = JSON.stringify({
+    //     code: 200,
+    //     msg: '请求成功',
+    //     data: {
+    //       '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
+    //       JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`
+    //     }
+    //   })
+    //   outStatus = 200
+    // } else {
+    //   outBody = res.body
+    //   outStatus = res.status
+    // }
   } catch (err) {
     outBody = JSON.stringify(err.stack) || err
     outStatus = 500
