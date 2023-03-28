@@ -1,8 +1,9 @@
 export async function onRequestPost(context) {
   const { request } = context
   try {
-    const file = request.formData()
-    return new Response('输出' + JSON.stringify(file))
+    const file = await request.formData()
+    const t = file.get('file')
+    return new Response('输出' + JSON.stringify(t), t.size)
   } catch (error) {
     return new Response(error)
   }
