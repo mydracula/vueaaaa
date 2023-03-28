@@ -3,7 +3,7 @@ export async function onRequestPost(context) {
   try {
     const file = await request.formData()
     const t = file.get('file')
-    const buffer = f.arrayBuffer()
+    const buffer = t.arrayBuffer()
     return new Response('输出' + buffer)
   } catch (error) {
     return new Response(error)
