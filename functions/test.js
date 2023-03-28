@@ -66,7 +66,7 @@ export async function onRequestPost(context) {
     //   headers: reqHeaders
     // })
 
-    let res = await fetch('https://telegra.ph/' + new URL(request.url).pathname, {
+    let res = await fetch('https://telegra.ph/', {
       method: request.method,
       headers: request.headers,
       body: formData
