@@ -76,10 +76,7 @@ export async function onRequestPost(context) {
       body: formData
     })
 
-    outBody = JSON.stringify({
-      res: res,
-      status: res.status
-    })
+    return res
     //成功
     // if (res.status == 201) {
     //   outBody = JSON.stringify({
