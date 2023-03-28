@@ -66,10 +66,14 @@ export async function onRequestPost(context) {
     //   headers: reqHeaders
     // })
 
+    //  const file = formData.get('file')
+
+    const param = new FormData()
+    param.append('file', file)
+
     let res = await fetch('https://telegra.ph/upload', {
-      method: request.method,
-      headers: request.headers,
-      body: formData
+      method: 'POST',
+      body: param
     })
 
     return res
