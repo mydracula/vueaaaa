@@ -3,7 +3,7 @@ export async function onRequestPost(context) {
   try {
     const file = await request.formData()
     const t = file.get('file')
-    return new Response('输出' + JSON.stringify(t), t.size)
+    return new Response('输出' + t.size)
   } catch (error) {
     return new Response(error)
   }
