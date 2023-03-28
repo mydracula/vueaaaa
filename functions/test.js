@@ -71,6 +71,8 @@ export async function onRequestPost(context) {
       body: formData
     }).then((data) => data.json())
 
+    const tg = res2[0]?.src || res2?.error || '未知错误'
+
     if (res1.status == 201) {
       outBody = JSON.stringify({
         code: 200,
@@ -78,7 +80,7 @@ export async function onRequestPost(context) {
         data: {
           '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
           JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
-          Telegra: `https://main-1fa.pages.dev${res2[0]?.src}` || res2?.error || '未知错误'
+          Telegra: tg ? `https://main-1fa.pages.dev${tg}` : tg
         }
       })
       outStatus = 200
