@@ -66,10 +66,11 @@ export async function onRequestPost(context) {
       headers: reqHeaders
     })
 
-    let res2 = await fetch('https://telegra.ph/upload', {
+    let tg = await fetch('https://telegra.ph/upload', {
       method: 'POST',
       body: formData
     })
+    let res2 = tg.json()
 
     return new Response(res2[0]?.src)
 
