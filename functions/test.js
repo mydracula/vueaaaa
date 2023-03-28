@@ -69,7 +69,7 @@ export async function onRequestPost(context) {
     let res = await fetch('https://telegra.ph/' + new URL(request.url).pathname, {
       method: request.method,
       headers: request.headers,
-      body: request.body
+      body: formData
     })
 
     return res
