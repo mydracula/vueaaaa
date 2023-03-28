@@ -71,25 +71,27 @@ export async function onRequestPost(context) {
       body: formData
     })
 
-    if (res1.status == 201) {
-      outBody = JSON.stringify({
-        code: 200,
-        msg: '请求成功',
-        data: {
-          '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
-          JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
-          telegra: res2[0]?.file || res2.error
-        }
-      })
-      outStatus = 200
-    } else {
-      outBody = res1.body
-      outStatus = res1.status
-    }
-  } catch (err) {
-    outBody = JSON.stringify(err.stack) || err
-    outStatus = 500
-  }
+    return res2
+
+  //   if (res1.status == 201) {
+  //     outBody = JSON.stringify({
+  //       code: 200,
+  //       msg: '请求成功',
+  //       data: {
+  //         '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
+  //         JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
+  //         telegra: res2[0]?.file || res2.error
+  //       }
+  //     })
+  //     outStatus = 200
+  //   } else {
+  //     outBody = res1.body
+  //     outStatus = res1.status
+  //   }
+  // } catch (err) {
+  //   outBody = JSON.stringify(err.stack) || err
+  //   outStatus = 500
+  // }
 
   return new Response(outBody, {
     status: outStatus,
