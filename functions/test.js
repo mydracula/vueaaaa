@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
   const { request } = context
   try {
-    const file = await request.formData()
+    const file = await request.body
     const t = file.get('file')
     const buffer = await t.arrayBuffer()
     const content = await arrayBufferToBase64(buffer)
