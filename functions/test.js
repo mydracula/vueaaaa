@@ -68,15 +68,18 @@ export async function onRequestPost(context) {
 
     //  const file = formData.get('file')
 
-    const param = new FormData()
-    param.append('file', file)
+    // const param = new FormData()
+    // param.append('file', file)
 
     let res = await fetch('https://telegra.ph/upload', {
       method: 'POST',
-      body: param
+      body: formData
     })
 
-    return res
+    outBody = JSON.stringify({
+      res: res,
+      status: res.status
+    })
     //成功
     // if (res.status == 201) {
     //   outBody = JSON.stringify({
