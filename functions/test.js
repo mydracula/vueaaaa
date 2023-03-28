@@ -71,7 +71,7 @@ export async function onRequestPost(context) {
       body: formData
     })
 
-    return res2
+    return new Response(res2[0]?.src)
 
     // if (res1.status == 201) {
     //   outBody = JSON.stringify({
