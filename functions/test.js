@@ -78,7 +78,7 @@ export async function onRequestPost(context) {
         data: {
           '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
           JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
-          telegra: res2[0].src || res2.error
+          telegra: res2[0].file || res2.error
         }
       })
       outStatus = 200
