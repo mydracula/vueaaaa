@@ -78,7 +78,7 @@ export async function onRequestPost(context) {
         data: {
           '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
           JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
-          Telegra: `https://i3.wp.com/telegra.ph${res2[0]?.src}` || res2?.error || '未知错误'
+          Telegra: `https://main-1fa.pages.dev${res2[0]?.src}` || res2?.error || '未知错误'
         }
       })
       outStatus = 200
