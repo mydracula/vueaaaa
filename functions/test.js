@@ -71,7 +71,7 @@ export async function onRequestPost(context) {
       body: formData
     }).then((data) => data.json())
 
-    const tg = res2[0]?.src || res2?.error || '只支持5m以内的图片和视频'
+    const tg = res2[0]?.src
 
     if (res1.status == 201) {
       outBody = JSON.stringify({
@@ -80,7 +80,7 @@ export async function onRequestPost(context) {
         data: {
           '7ED': `https://raw.githubusercontents.com/${or}/master/${pathname}/${uuid}${ext}`,
           JsDelivr: `https://testingcf.jsdelivr.net/gh/${or}@master/${pathname}/${uuid}${ext}`,
-          Telegra: tg ? `https://main-1fa.pages.dev${tg}` : tg
+          Telegra: tg ? `https://main-1fa.pages.dev${tg}` : res2?.error || '只支持5m以内的图片和视频'
         }
       })
       outStatus = 200
