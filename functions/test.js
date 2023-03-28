@@ -57,26 +57,22 @@ export async function onRequestPost(context) {
     reqHeaders.set('Content-Type', 'application/json')
 
     //发起 fetch
-    // let res1 = await fetch(uri, {
-    //   method: 'PUT',
-    //   body: JSON.stringify({
-    //     message: 'init',
-    //     content: content
-    //   }),
-    //   headers: reqHeaders
-    // })
+    let res1 = await fetch(uri, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: 'init',
+        content: content
+      }),
+      headers: reqHeaders
+    })
 
-    //  const file = formData.get('file')
-
-    // const param = new FormData()
-    // param.append('file', file)
-
-    let res = await fetch('https://telegra.ph/upload', {
+    let res2 = await fetch('https://telegra.ph/upload', {
       method: 'POST',
       body: formData
     })
 
-    return res.status
+    return res2
+
     //成功
     // if (res.status == 201) {
     //   outBody = JSON.stringify({
