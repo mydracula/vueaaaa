@@ -71,7 +71,7 @@ export async function onRequestPost(context) {
       body: formData
     }).then((data) => data.json())
 
-    const tg = res2[0]?.src || res2?.error || '未知错误'
+    const tg = res2[0]?.src || res2?.error || '只支持5m以内的图片和视频'
 
     if (res1.status == 201) {
       outBody = JSON.stringify({
